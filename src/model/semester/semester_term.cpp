@@ -250,7 +250,8 @@ float Semester::getSemesterGradePointAverage(const GRADE_POINT_MAP& point_map, G
 		return .0;
 
 	float gradePointAverage{
-		(this->getQualityPoints(point_map, pass_grade) / this->getQualityCreditHours(pass_grade))
+		(this->getQualityPoints(point_map, pass_grade) /
+		this->getQualityCreditHours(pass_grade))
 	};
 
 	return gradePointAverage;
