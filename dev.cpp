@@ -115,8 +115,8 @@ int main(size_t argc, char* argv[])
 		"\nAHRS: " << fall_20.getAttemptedCreditHours() <<
 		"\nEHRS: " << fall_20.getEarnedCreditHours(Grade("D")) <<
 		"\nQHRS: " << fall_20.getQualityCreditHours(Grade("D")) <<
-		"\nQPTS: " << fall_20.getQualityPoints(pointMap, Grade("D+")) <<
-		"\nGPA : " << fall_20.getSemesterGradePointAverage(pointMap, Grade("D+")) <<
+		"\nQPTS: " << fall_20.getQualityPoints(pointMap, Grade("D")) <<
+		"\nGPA : " << fall_20.getSemesterGradePointAverage(pointMap, Grade("D")) <<
 		std::endl;
 
 	return 0;
