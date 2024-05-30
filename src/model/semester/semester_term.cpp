@@ -7,7 +7,7 @@ Semester::Semester(SemesterSeason season, uint16_t year, Semester* previous)
 	: m_season{ season },
 	m_year{ year },
 	m_courses{},
-	m_priorSemester{ previous }
+	m_prior{ previous }
 {
 	//
 }
@@ -16,7 +16,7 @@ Semester::Semester(const Semester& semester) noexcept
 	: m_season{ semester.m_season },
 	m_year{ semester.m_year },
 	m_courses{ semester.m_courses },
-	m_priorSemester{ nullptr }
+	m_prior{ nullptr }
 {
 	//
 }
@@ -25,13 +25,13 @@ Semester::Semester(Semester&& r_semester) noexcept
 	: m_season{ std::move(r_semester.m_season) },
 	m_year{ std::move(r_semester.m_year) },
 	m_courses{ std::move(r_semester.m_courses) },
-	m_priorSemester{ nullptr }
+	m_prior{ nullptr }
 {
 	//
 }
 
 //	Semester::FREE
-std::string_view getSemesterSeasonTitle(SemesterSeason season)
+std::string_view getSeasonTitle(SemesterSeason season)
 {
 	switch (season) {
 	case SemesterSeason::WINTER:
@@ -63,7 +63,7 @@ Semester& Semester::operator=(const Semester& rhs_semester) noexcept
 	this->m_season = rhs_semester.m_season;
 	this->m_year = rhs_semester.m_year;
 	this->m_courses = rhs_semester.m_courses;
-	this->m_priorSemester = nullptr;
+	this->m_prior = nullptr;
 
 	return *this;
 }
@@ -76,7 +76,7 @@ Semester& Semester::operator=(Semester&& rhs_semester) noexcept
 	this->m_season = std::move(rhs_semester.m_season);
 	this->m_year = std::move(rhs_semester.m_year);
 	this->m_courses = std::move(rhs_semester.m_courses);
-	this->m_priorSemester = nullptr;
+	this->m_prior = nullptr;
 
 	return *this;
 }
@@ -117,6 +117,18 @@ std::vector<const UniversityCourse*> Semester::getQualityCourses() const
 	return qualityCourses;
 }
 
+std::vector<const UniversityCourse*> Semester::getRequiredProgramCourses() const
+{
+	std::vector<const UniversityCourse*> programCourses{};
+
+	for (const UniversityCourse& course : this->m_courses) {
+		if (course.isQualityCourse() && course.isRequiredProgramCourse())
+			programCourses.emplace_back(&course);
+	}
+
+	return programCourses;
+}
+
 std::vector<const Grade*> Semester::getSemesterGrades() const
 {
 	std::vector<const Grade*> grades{};
@@ -137,6 +149,30 @@ float Semester::getAttemptedCreditHours() const
 	return attempted;
 }
 
+float Semester::getRequiredCreditsFailed(Grade pass_grade) const
+{
+	float failCredits{ .0 };
+
+	for (const UniversityCourse* course : this->getRequiredProgramCourses()) {
+		if (!courseGradeIsAtLeast(*course, pass_grade))
+			failCredits += course->getCourseCredits();
+	}
+
+	return failCredits;
+}
+
+float Semester::getRequiredCreditsPassed(Grade pass_grade) const
+{
+	float passCredits{ .0 };
+
+	for (const UniversityCourse* course : this->getRequiredProgramCourses()) {
+		if (courseGradeIsAtLeast(*course, pass_grade))
+			passCredits += course->getCourseCredits();
+	}
+
+	return passCredits;
+}
+
 float Semester::getEarnedCreditHours(Grade pass_grade) const
 {
 	float earned{ .0 };
@@ -149,7 +185,7 @@ float Semester::getEarnedCreditHours(Grade pass_grade) const
 	return earned;
 }
 
-float Semester::getQualityCreditHours() const
+float Semester::getQualityCreditHours(Grade pass_grade) const
 {
 	float qualityCredits{ .0 };
 
@@ -157,7 +193,14 @@ float Semester::getQualityCreditHours() const
 		qualityCredits += course->getCourseCredits();
 
 	// Corrections from previous semester
-	//
+	if (this->hasPreviousSemester()) {
+		float prevFailedCredits{ this->m_prior->getRequiredCreditsFailed(pass_grade) };
+
+		if (prevFailedCredits <= qualityCredits)
+			qualityCredits -= prevFailedCredits;
+		else if (prevFailedCredits > qualityCredits)
+			qualityCredits = .0;
+	}
 
 	return qualityCredits;
 }
@@ -194,11 +237,11 @@ float Semester::getQualityPoints(const GRADE_POINT_MAP& point_map, Grade pass_gr
 
 float Semester::getSemesterGradePointAverage(const GRADE_POINT_MAP& point_map, Grade pass_grade) const
 {
-	if (this->getQualityCreditHours() == .0)
+	if (this->getQualityCreditHours(pass_grade) == .0)
 		return .0;
 
 	float gradePointAverage{
-		(this->getQualityPoints(point_map, pass_grade) / this->getQualityCreditHours())
+		(this->getQualityPoints(point_map, pass_grade) / this->getQualityCreditHours(pass_grade))
 	};
 
 	return gradePointAverage;
@@ -221,7 +264,7 @@ float Semester::getSemesterScore(const GRADE_POINT_MAP& point_map, Grade pass_gr
 
 bool Semester::hasPreviousSemester() const
 {
-	return (this->m_priorSemester != nullptr);
+	return (this->m_prior != nullptr);
 }
 
 bool Semester::hasCourseCode(const std::string& ccode)

@@ -41,10 +41,13 @@ public:
 	constexpr size_t getCourseEnrollmentCount() const;
 	const std::vector<UniversityCourse>& getCourses() const;
 	std::vector<const UniversityCourse*> getQualityCourses() const;
+	std::vector<const UniversityCourse*> getRequiredProgramCourses() const;
 	std::vector<const Grade*> getSemesterGrades() const;
 	float getAttemptedCreditHours() const;
+	float getRequiredCreditsFailed(Grade pass_grade) const;
+	float getRequiredCreditsPassed(Grade pass_grade) const;
 	float getEarnedCreditHours(Grade pass_grade) const;
-	float getQualityCreditHours() const;
+	float getQualityCreditHours(Grade pass_grade) const;
 	float getPossibleQualityPoints(const GRADE_POINT_MAP& point_map) const;
 	float getQualityPoints(const GRADE_POINT_MAP& point_map, Grade pass_grade) const;
 	float getSemesterGradePointAverage(const GRADE_POINT_MAP& point_map, Grade pass_grade) const;
@@ -59,7 +62,7 @@ private:
 	SemesterSeason m_season;
 	uint16_t m_year;
 	std::vector<UniversityCourse> m_courses;
-	Semester* m_priorSemester;
+	Semester* m_prior;
 
 };
 
