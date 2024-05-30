@@ -8,7 +8,7 @@
 #include<string_view>
 #include<vector>
 #include<ostream>
-#include"percent_map.h"
+#include"model/grade/percent_map.h"
 
 
 namespace GradeSymbol {

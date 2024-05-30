@@ -2,7 +2,7 @@
 #ifndef _UPM_GRADE_POINT_MAP_
 #define _UPM_GRADE_POINT_MAP_
 
-#include"grade_obj.h"
+#include"model/grade/grade_obj.h"
 
 typedef struct _UPM_GRADE_POINT_MAP {
 	float AP_POINTS{ .0 };

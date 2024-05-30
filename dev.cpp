@@ -3,6 +3,7 @@
 
 #include"model/grade/grade_obj.h"
 #include"model/grade/point_map.h"
+#include"model/course/college_course.h"
 
 
 int main(size_t argc, char* argv[])
@@ -68,6 +69,12 @@ int main(size_t argc, char* argv[])
 		std::endl;
 
 	//
+	UniversityCourse course1{
+		CourseCode("MAT", 112),
+		"Calculus II",
+		4.,
+		Grade("A")
+	};
 
 	return 0;
 }
