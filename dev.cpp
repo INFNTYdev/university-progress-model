@@ -1,8 +1,8 @@
 
 #include<iostream>
 
-#include"model/grade_obj.h"
-#include"model/point_map.h"
+#include"model/grade/grade_obj.h"
+#include"model/grade/point_map.h"
 
 
 int main(size_t argc, char* argv[])

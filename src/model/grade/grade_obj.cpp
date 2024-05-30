@@ -1,5 +1,5 @@
 
-#include"model/grade_obj.h"
+#include"model/grade/grade_obj.h"
 
 
 //	Grade::CONSTRUCTORS

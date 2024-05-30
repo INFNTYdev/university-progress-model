@@ -3,5 +3,7 @@
 
 add_library(
 	upm
-	"model/grade_obj.cpp"
+	"model/grade/grade_obj.cpp"
+	"model/course/course_code.cpp"
+	"model/course/college_course.cpp"
 )

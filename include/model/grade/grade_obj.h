@@ -1,6 +1,6 @@
 
-#ifndef UPM_GRADE_MDL_
-#define UPM_GRADE_MDL_
+#ifndef UPM_GRADE_MDL_H_
+#define UPM_GRADE_MDL_H_
 
 
 
@@ -89,4 +89,4 @@ private:
 
 
 
-#endif // UPM_GRADE_MDL_
+#endif // UPM_GRADE_MDL_H_
