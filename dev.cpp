@@ -1,9 +1,9 @@
 
 #include<iostream>
 
-#include"model/grade/grade_obj.h"
+#include"model/grade/percent_map.h"
 #include"model/grade/point_map.h"
-#include"model/course/college_course.h"
+#include"model/semester/semester_term.h"
 
 
 int main(size_t argc, char* argv[])
@@ -60,21 +60,64 @@ int main(size_t argc, char* argv[])
 
 
 
-	Grade test{ gradeMap, 91.3 };
-
-	std::cout << std::boolalpha <<
-		"\nGrade: " << test <<
-		"\nValid: " << test.isValidGradeInstance() <<
-		"\nPoint: " << pointMap.getGradePoints(test) <<
-		std::endl;
-
 	//
-	UniversityCourse course1{
-		CourseCode("MAT", 112),
-		"Calculus II",
-		4.,
-		Grade("A")
-	};
+	Semester fall_20{ SemesterSeason::FALL, 2020 };
+
+	fall_20.addCourse(
+		UniversityCourse(
+			CourseCode("CSC", 113),
+			"Computer Logic & Discrete Math",
+			3.,
+			Grade("F")
+		)
+	);
+
+	fall_20.addCourse(
+		UniversityCourse(
+			CourseCode("CSS", 100),
+			"College Student Success",
+			1.,
+			Grade("F"),
+			false
+		)
+	);
+
+	fall_20.addCourse(
+		UniversityCourse(
+			CourseCode("ENG", 101),
+			"College Composition I",
+			3.,
+			Grade("F")
+		)
+	);
+
+	fall_20.addCourse(
+		UniversityCourse(
+			CourseCode("MAT", 110),
+			"Precalculus",
+			4.,
+			Grade("F")
+		)
+	);
+
+	fall_20.addCourse(
+		UniversityCourse(
+			CourseCode("PHY", 113),
+			"Physics I",
+			4.,
+			Grade("F"),
+			true,
+			false
+		)
+	);
+
+	std::cout << "Semester totals" <<
+		"\nAHRS: " << fall_20.getAttemptedCreditHours() <<
+		"\nEHRS: " << fall_20.getEarnedCreditHours(Grade("D")) <<
+		"\nQHRS: " << fall_20.getQualityCreditHours() <<
+		"\nQPTS: " << fall_20.getQualityPoints(pointMap, Grade("D+")) <<
+		"\nGPA : " << fall_20.getSemesterGradePointAverage(pointMap, Grade("D+")) <<
+		std::endl;
 
 	return 0;
 }

@@ -30,10 +30,12 @@ namespace GradeSymbol {
 	const std::string F{ "F" };
 	const std::string P{ "P" };
 	const std::string NA{ "n/a" };
+	const std::string CIP{ "CIP" };
 }
 
 enum GradeRepr {
 	NA,
+	CIP,
 	F, D, DP, CM, C, CP,
 	BM, B, BP, AM, A, AP, P
 };
@@ -51,7 +53,8 @@ const std::vector<GradeRepr> LEGAL_GRADE_SYMBOLS{
 	GradeRepr::CM,
 	GradeRepr::DP,
 	GradeRepr::D,
-	GradeRepr::F
+	GradeRepr::F,
+	GradeRepr::CIP
 };
 
 
@@ -75,7 +78,9 @@ public:
 	Grade& operator=(Grade&& rhs_grade) noexcept;
 	bool operator==(const Grade& rhs_grade) const;
 	bool operator>(const Grade& rhs_grade) const;
+	bool operator>=(const Grade& rhs_grade) const;
 	bool operator<(const Grade& rhs_grade) const;
+	bool operator<=(const Grade& rhs_grade) const;
 
 	bool isValidGradeInstance() const;
 	GradeRepr getGradeRepresentation() const;

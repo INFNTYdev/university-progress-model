@@ -57,6 +57,8 @@ std::string_view getLiteralGradeSymbol(GradeRepr representation)
 		return std::string_view{ GradeSymbol::D };
 	case GradeRepr::F:
 		return std::string_view{ GradeSymbol::F };
+	case GradeRepr::CIP:
+		return std::string_view{ GradeSymbol::CIP };
 	default:
 		return std::string_view{ GradeSymbol::NA };
 	}
@@ -145,9 +147,19 @@ bool Grade::operator>(const Grade& rhs_grade) const
 	return (this->m_representation > rhs_grade.m_representation);
 }
 
+bool Grade::operator>=(const Grade& rhs_grade) const
+{
+	return (*this > rhs_grade || *this == rhs_grade);
+}
+
 bool Grade::operator<(const Grade& rhs_grade) const
 {
 	return (this->m_representation < rhs_grade.m_representation);
+}
+
+bool Grade::operator<=(const Grade& rhs_grade) const
+{
+	return (*this < rhs_grade || *this == rhs_grade);
 }
 //	Grade::OPERATOR END!
 
