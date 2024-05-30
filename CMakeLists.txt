@@ -20,3 +20,10 @@ include(CTest)
 include_directories("${PROJECT_SOURCE_DIR}/include")
 
 # Sub dirs
+add_subdirectory(src)
+
+
+# Dev below:
+add_executable(upmDevExe "dev.cpp")
+
+target_link_libraries(upmDevExe PUBLIC upm)
