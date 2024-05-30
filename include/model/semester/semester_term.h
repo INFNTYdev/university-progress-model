@@ -38,6 +38,7 @@ public:
 
 	constexpr SemesterSeason getSeason() const;
 	constexpr uint16_t getYear() const;
+	std::string getSemesterTitle() const;
 	constexpr size_t getCourseEnrollmentCount() const;
 	const std::vector<UniversityCourse>& getCourses() const;
 	std::vector<const UniversityCourse*> getQualityCourses() const;

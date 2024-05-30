@@ -111,7 +111,7 @@ int main(size_t argc, char* argv[])
 		)
 	);
 
-	std::cout << "Semester totals" <<
+	std::cout << "Semester totals | " << fall_20.getSemesterTitle() <<
 		"\nAHRS: " << fall_20.getAttemptedCreditHours() <<
 		"\nEHRS: " << fall_20.getEarnedCreditHours(Grade("D")) <<
 		"\nQHRS: " << fall_20.getQualityCreditHours(Grade("D")) <<

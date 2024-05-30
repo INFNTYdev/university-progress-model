@@ -95,6 +95,15 @@ constexpr uint16_t Semester::getYear() const
 	return this->m_year;
 }
 
+std::string Semester::getSemesterTitle() const
+{
+	std::ostringstream titleBuffer{};
+
+	titleBuffer << getSeasonTitle(this->m_season) << ' ' << this->m_year;
+
+	return titleBuffer.str();
+}
+
 constexpr size_t Semester::getCourseEnrollmentCount() const
 {
 	return this->m_courses.size();
